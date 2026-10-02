@@ -17,16 +17,11 @@ jobs:
     - name: Setup Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.11.2'
+        version: '6.9.3'
         target: 'desktop'
         arch: 'win64_mingw'
         modules: 'qtdeclarative qtquickcontrols2 qtsvg'
         cache: true
-
-    - name: Set up MinGW
-      uses: egor-tensin/setup-mingw@v2
-      with:
-        platform: x64
 
     - name: Build project
       run: |
@@ -35,7 +30,6 @@ jobs:
 
     - name: Deploy with windeployqt
       run: |
-        mkdir -Force release\deps
         windeployqt.exe --release --compiler-runtime release\Blippy.exe
 
     - name: Install Inno Setup
