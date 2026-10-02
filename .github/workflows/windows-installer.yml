@@ -17,10 +17,10 @@ jobs:
     - name: Setup Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.8.3'
+        version: '6.6.3'
         target: 'desktop'
         arch: 'win64_mingw'
-        modules: 'qtdeclarative qtquickcontrols2 qtsvg qtshadertools'
+        modules: 'qtdeclarative qtquickcontrols2 qtsvg'
         cache: true
 
     - name: Build project
