@@ -5,7 +5,9 @@ QT += core gui widgets network qml quick quickcontrols2 svg
 
 greaterThan(QT_MAJOR_VERSION, 4):CONFIG += c++17
 
-CONFIG += c++14 debug
+CONFIG += c++17
+CONFIG -= debug
+CONFIG += release
 
 # The following define makes your messages fail to compile
 # if you use the deprecated API.
