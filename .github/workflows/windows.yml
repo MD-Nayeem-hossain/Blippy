@@ -14,11 +14,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Setup Python 3.12
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12'
-
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
@@ -26,7 +21,7 @@ jobs:
         host: 'windows'
         target: 'desktop'
         arch: 'win64_mingw'
-        modules: 'qtdeclarative qtquickcontrols2 qtsvg'
+        cache: true
 
     - name: Configure and Build
       shell: cmd
