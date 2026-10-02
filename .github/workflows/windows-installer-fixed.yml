@@ -1,0 +1,48 @@
+name: Windows Installer (MSVC)
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build-installer:
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v3
+      with:
+        version: '6.5.3'
+        host: 'windows'
+        target: 'desktop'
+        arch: 'win64_mingw'
+        modules: 'qtdeclarative qtquickcontrols2 qtsvg'
+
+    - name: Build project
+      shell: cmd
+      run: |
+        qmake Blippy.pro
+        mingw32-make -j4
+
+    - name: Deploy with windeployqt
+      shell: cmd
+      run: |
+        windeployqt.exe --release --compiler-runtime release\Blippy.exe
+
+    - name: Install Inno Setup
+      run: choco install innosetup -y
+
+    - name: Build installer
+      shell: cmd
+      run: iscc installer\blippy.iss
+
+    - name: Upload installer
+      uses: actions/upload-artifact@v4
+      with:
+        name: Blippy-Windows-Installer
+        path: release/Blippy-Setup-*.exe
