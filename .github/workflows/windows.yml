@@ -1,59 +1,64 @@
-name: Windows Installer
+name: Build Windows Installer
 
 on:
+  workflow_dispatch:
   push:
     tags:
       - 'v*'
-  workflow_dispatch:
 
 jobs:
-  build-installer:
+  build:
     runs-on: windows-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Setup Qt
+    - name: Setup Python 3.12
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.6.3'
+        version: '6.5.3'
+        host: 'windows'
         target: 'desktop'
         arch: 'win64_mingw'
         modules: 'qtdeclarative qtquickcontrols2 qtsvg'
-        cache: true
 
-    - name: Build project
+    - name: Configure and Build
+      shell: cmd
       run: |
         qmake Blippy.pro
         mingw32-make -j4
 
-    - name: Deploy with windeployqt
+    - name: Deploy Qt DLLs
+      shell: cmd
       run: |
         windeployqt.exe --release --compiler-runtime release\Blippy.exe
 
     - name: Install Inno Setup
-      run: |
-        choco install innosetup --yes --no-progress
+      shell: cmd
+      run: choco install innosetup -y --no-progress
 
-    - name: Build installer
-      run: |
-        iscc installer\blippy.iss
+    - name: Build Installer
+      shell: cmd
+      run: iscc installer\blippy.iss
 
-    - name: Upload installer artifact
+    - name: Upload Installer
       uses: actions/upload-artifact@v4
       with:
-        name: Blippy-Windows-Installer
+        name: Blippy-Setup
         path: release\Blippy-Setup-*.exe
-        retention-days: 30
+        if-no-files-found: error
 
-    - name: Create GitHub Release
+    - name: Attach to Release
       if: startsWith(github.ref, 'refs/tags/v')
       uses: softprops/action-gh-release@v2
       with:
         files: release/Blippy-Setup-*.exe
-        draft: false
-        prerelease: false
         generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
