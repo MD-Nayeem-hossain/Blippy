@@ -1,0 +1,42 @@
+name: Windows EXE
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v2
+      with:
+        version: '5.15.2'
+        arch: 'win64_mingw81'
+        modules: 'qtquickcontrols2 qtsvg qtdeclarative'
+
+    - name: Build
+      shell: cmd
+      run: |
+        qmake Blippy.pro
+        mingw32-make -j2
+
+    - name: Deploy
+      shell: cmd
+      run: |
+        windeployqt --release release\Blippy.exe
+
+    - name: Package with 7z
+      shell: cmd
+      run: |
+        7z a Blippy-Windows-Portable.zip release\*
+
+    - uses: actions/upload-artifact@v4
+      with:
+        name: Blippy-Windows
+        path: Blippy-Windows-Portable.zip
