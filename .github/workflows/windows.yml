@@ -38,9 +38,17 @@ jobs:
       shell: cmd
       run: choco install innosetup -y --no-progress
 
+    - name: Resolve version
+      id: ver
+      shell: pwsh
+      run: |
+        $ref = "${{ github.ref_name }}"
+        $v = if ($ref -match '^v(\d.*)$') { $Matches[1] } else { '1.0.0' }
+        "APPVERSION=$v" >> $env:GITHUB_OUTPUT
+
     - name: Build Installer
       shell: cmd
-      run: iscc installer\blippy.iss
+      run: iscc /DMyAppVersion=${{ steps.ver.outputs.APPVERSION }} installer\blippy.iss
 
     - name: Upload Installer
       uses: actions/upload-artifact@v4

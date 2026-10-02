@@ -1,9 +1,11 @@
 ; Inno Setup Script for Blippy
 
 #define MyAppName "Blippy"
-#define MyAppVersion "1.0.0"
+#ifndef MyAppVersion
+  #define MyAppVersion "1.0.0"
+#endif
 #define MyAppPublisher "Blippy Team"
-#define MyAppURL "https://github.com/blippy/blippy"
+#define MyAppURL "https://github.com/MD-Nayeem-hossain/Blippy"
 #define MyAppExeName "Blippy.exe"
 
 [Setup]
@@ -37,7 +39,7 @@ Source: "..\release\*"; DestDir: "{app}"; Flags: recursesubdirs createallsubdirs
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{group}\{cm:UninstallProgram,{#MyAppName}}"; Filename: "{uninstallexe}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{autohome}\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\{#MyAppName}.lnk"; Filename: "{app}\{#MyAppExeName}"; Tasks: autoStart
+Name: "{userstartup}\{#MyAppName}.lnk"; Filename: "{app}\{#MyAppExeName}"; Tasks: autoStart
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
