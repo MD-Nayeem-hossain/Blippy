@@ -1,0 +1,54 @@
+[
+    {
+        "id": "uuid-default-1",
+        "keyword": "h1",
+        "snippet": "Hello #{text}!",
+        "description": "Greeting with custom text",
+        "group": "work",
+        "matchingMode": 0,
+        "caseSensitivity": 0,
+        "enabled": true,
+        "creationDate": "2024-01-15T10:30:00Z",
+        "modificationDate": "2024-01-15T10:30:00Z",
+        "placeholders": ["text"]
+    },
+    {
+        "id": "uuid-default-2",
+        "keyword": "addr",
+        "snippet": "123 Main St\nCity, State 12345",
+        "description": "Default address",
+        "group": "personal",
+        "matchingMode": 0,
+        "caseSensitivity": 0,
+        "enabled": true,
+        "creationDate": "2024-01-15T10:30:00Z",
+        "modificationDate": "2024-01-15T10:30:00Z",
+        "placeholders": []
+    },
+    {
+        "id": "uuid-default-3",
+        "keyword": "email",
+        "snippet": "example@example.com",
+        "description": "Default email",
+        "group": "personal",
+        "matchingMode": 0,
+        "caseSensitivity": 0,
+        "enabled": true,
+        "creationDate": "2024-01-15T10:30:00Z",
+        "modificationDate": "2024-01-15T10:30:00Z",
+        "placeholders": []
+    },
+    {
+        "id": "uuid-default-4",
+        "keyword": "phone",
+        "snippet": "(555) 123-4567",
+        "description": "Default phone number",
+        "group": "personal",
+        "matchingMode": 0,
+        "caseSensitivity": 0,
+        "enabled": true,
+        "creationDate": "2024-01-15T10:30:00Z",
+        "modificationDate": "2024-01-15T10:30:00Z",
+        "placeholders": []
+    }
+]
