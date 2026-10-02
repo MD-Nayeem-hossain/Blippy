@@ -29,10 +29,16 @@ jobs:
         qmake Blippy.pro
         mingw32-make -j4
 
+    - name: Inspect Qt plugins
+      shell: cmd
+      run: |
+        dir "%QT_ROOT_DIR%\plugins"
+        dir "%QT_ROOT_DIR%\plugins\platforms"
+
     - name: Deploy Qt DLLs
       shell: cmd
       run: |
-        windeployqt.exe --release --compiler-runtime release\Blippy.exe
+        "%QT_ROOT_DIR%\bin\windeployqt.exe" --release --compiler-runtime --qmake "%QT_ROOT_DIR%\bin\qmake.exe" release\Blippy.exe
 
     - name: Install Inno Setup
       shell: cmd
